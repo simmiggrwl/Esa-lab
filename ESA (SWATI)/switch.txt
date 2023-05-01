@@ -1,0 +1,64 @@
+# Interrupt Programming using GPIO pins
+
+import Rpi.GPIO as GPIO
+from time import sleep
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+button=16
+
+GPIO.setup(8,GPIO.OUT)
+GPIO.setup(10,GPIO.OUT)
+GPIO.setup(button,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+
+while True:
+    GPIO.wait_for_edge(button,GPIO.RISING)
+    GPIO.output(8,GPIO.HIGH)
+    sleep(1)
+    GPIO.wait_for_edge(button,GPIO.FALLING)
+    GPIO.output(8,GPIO.LOW)
+    sleep(1)
+    GPIO.wait_for_edge(button,GPIO.RISING)
+    GPIO.output(10,GPIO.HIGH)
+    sleep(1)
+    GPIO.wait_for_edge(button,GPIO.FALLING)
+    GPIO.output(10,GPIO.LOW)
+    sleep(1)
+    
+# simulataneous
+
+while True:
+    GPIO.wait_for_edge(button,GPIO.RISING)
+    GPIO.output(8,GPIO.HIGH)
+    GPIO.output(8,GPIO.HIGH)
+    sleep(1)
+    GPIO.wait_for_edge(button,GPIO.FALLING)
+    GPIO.output(8,GPIO.LOW)
+    GPIO.output(10,GPIO.LOW)
+    sleep(1)
+    
+# with PWM
+
+P=GPIO.PWM(8,100)
+P.start(0)
+Q=GPIO.PWM(10,100)
+Q.start(0)
+
+while True:
+    GPIO.wait_for_edge(button,GPIO.RISING)
+    for i in range(0,100,10):
+        P.ChangeDutyCycle(i)
+        time.sleep(0.1)
+    GPIO.wait_for_edge(button,GPIO.FALLING)
+    for i in range(100,0,-10):
+        P.ChangeDutyCycle(i)
+        time.sleep(0.1)
+    GPIO.wait_for_edge(button,GPIO.RISING)
+    for i in range(0,100,10):
+        Q.ChangeDutyCycle(i)
+        time.sleep(0.1)
+    GPIO.wait_for_edge(button,GPIO.FALLING)
+    for i in range(100,0,-10):
+        Q.ChangeDutyCycle(i)
+        time.sleep(0.1)
+    

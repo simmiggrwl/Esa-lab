@@ -1,0 +1,49 @@
+# Installing and connecting sqlite3
+
+$sudo date -s 'yyyy-mm-dd hh:mm:ss'
+$sudo apt update
+$sudo apt-get update
+$sudo apt full-upgrade
+
+#install sqlite3
+$sudo apt install sqlite3
+
+#create db and tables
+$sqlite3 sensor.db
+$.create table distance(id int primary key auto increament, dist real);
+
+#write the python program
+
+#to store value 20 in db
+import sqlite3
+conn=sqlite3.connect('sensor.db')
+c=conn.cursor()
+c.execute("Insert into distance(dist) values(20)")
+conn.commit()
+
+#measure distances using ultrasonic sensor
+import RPi.GPIO as g
+from time import sleep, time
+import sqlite3
+g.setwarnings(False)
+g.setmode(g.BOARD)
+conn=sqlite3.connect('sensor.db')
+c=conn.cursor()
+trig=5
+echo=12
+g.setup(trig,g.OUT) #trig generates waveform that gets reflected and analysed by echo
+g.setup(echo,g.IN)
+while True:
+    g.output(trig, g.HIGH) #generate waveform
+    time.sleep(0.01)
+    g.output(trig, g.LOW) #stop
+    while g.input(echo)==0: #while echo is analysing input
+        start_time=time()
+    while g.input(echo)==1:
+        end_time=time()
+    pulse=end_time-start_time
+    dist=round(pulse*17150,2)
+    print(dist)
+    c.execute(f "Insert into distance(dist) values({})")
+    conn.commit()
+    sleep(5)

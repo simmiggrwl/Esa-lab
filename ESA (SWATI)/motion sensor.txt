@@ -1,0 +1,81 @@
+# Interfacing PIR sensor with Raspberry Pi
+
+#led glows when motion detected (using PIR)
+import RPi.GPIO as g
+from time import sleep
+g.setwarnings(False)
+g.setmode(g.BOARD)
+inp=8
+led=10
+g.setup(inp. g.IN)
+g.setup(led, g.OUT)
+while True:
+    if g.input(inp):
+        g.output(led, g.HIGH)
+        print("Motion detected")
+    else:
+        g.output(led, g.LOW)
+        print("No motion detected")
+    sleep(1)
+
+
+#led glows when motion detected (using MotionSensor)
+import Rpi.GPIO as GPIO
+from time import sleep
+from gpioZero import MotionSensor
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+GPIO.setup(8,GPIO.OUT)
+pin=MotionSensor(4) #GPIO 4 -> 7TH pin
+
+while True:
+    print("Waiting for Motion")
+    pin_wait_for_motion()
+    GPIO.output(8,GPIO.HIGH)
+    sleep(1)
+    print("Motion Detected")
+    pin_wait_for_no_motion()
+    GPIO.output(8,GPIO.LOW)
+    sleep(1)
+    
+
+# 7 segment display + motion detected
+import Rpi.GPIO as GPIO
+from time import sleep
+from gpioZero import MotionSensor
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+PIR_input=38
+GPIO.setup(PIR_input,GPIO.IN)
+
+digits=[[1,1,1,1,1,1,0],
+        [0,1,1,0,0,0,0],
+        [1,1,0,1,1,0,1],
+        [1,1,1,1,0,0,1],
+        [0,1,1,0,0,1,1],
+        [1,0,1,1,0,1,1],
+        [1,0,1,1,1,1,1],
+        [1,1,1,0,0,0,0],
+        [1,1,1,1,1,1,1],
+        [1,1,1,1,0,1,1]]
+
+X=[8,10,12,16,18,22,24]
+
+for i in X:
+        GPIO.setup(i,GPIO.OUT)
+        
+def digitDisplay(digit):
+    for i in range (0,7):
+        if(digit[i]==1):
+            GPIO.output(X[i],GPIO.HIGH)
+
+dig=0
+while True:
+    if GPIO.input(PIR_input):
+        digitDisplay(digits[dig])
+        dig=(dig+1)%10     
+        sleep(0.5)
+    else:
+        continue

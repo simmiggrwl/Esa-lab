@@ -1,0 +1,74 @@
+# Connecting Raspberry Pi to 7 segment display
+
+#Digits 0-9 display
+import Rpi.GPIO as GPIO
+from time import sleep
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+digits=[[1,1,1,1,1,1,0],
+        [0,1,1,0,0,0,0],
+        [1,1,0,1,1,0,1],
+        [1,1,1,1,0,0,1],
+        [0,1,1,0,0,1,1],
+        [1,0,1,1,0,1,1],
+        [1,0,1,1,1,1,1],
+        [1,1,1,0,0,0,0],
+        [1,1,1,1,1,1,1],
+        [1,1,1,1,0,1,1]]
+
+X=[3,5,11,15,19,18,22]
+
+for i in X:
+        GPIO.setup(i,GPIO.OUT)
+    
+while True:
+    for num in digits:
+        for i in range(0,7):
+            if(num[i]==1):
+                GPIO.output(X[i],GPIO.HIGH)
+            time.sleep(1.2)
+        for i in range(0,7):
+            GPIO.output(X[i],GPIO.LOW)
+            time.sleep(1.2)
+   
+ #Traffic Lights using 7 segment
+import Rpi.GPIO as GPIO
+from time import sleep
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+digits=[[1,1,1,1,1,1,0],
+        [0,1,1,0,0,0,0],
+        [1,1,0,1,1,0,1],
+        [1,1,1,1,0,0,1],
+        [0,1,1,0,0,1,1],
+        [1,0,1,1,0,1,1],
+        [1,0,1,1,1,1,1],
+        [1,1,1,0,0,0,0],
+        [1,1,1,1,1,1,1],
+        [1,1,1,1,0,1,1]]
+
+X=[3,5,11,15,19,18,22]
+
+for i in X:
+        GPIO.setup(i,GPIO.OUT)
+        
+led=[8,10,12]
+for i in led:
+    GPIO.setup(i,GPIO.OUT)
+    
+j=0
+while True:
+    for num in digits:
+        for i in range(0,7):
+            if(num[i]==1):
+                GPIO.output(X[i],GPIO.HIGH)
+            time.sleep(1.2)
+        for i in range(0,7):
+            GPIO.output(X[i],GPIO.LOW)
+            
+    GPIO.output(led[j%3],GPIO.LOW)
+    time.sleep(1)
+    j=j+1
+    GPIO.output(led[j%3],GPIO.HIGH)

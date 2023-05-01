@@ -1,0 +1,67 @@
+#Controlling intensity of LED light using PWM
+
+import Rpi.GPIO as GPIO
+from time import sleep
+import random
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+GPIO.setup(8,GPIO.OUT)
+GPIO.setup(10,GPIO.OUT)
+GPIO.setup(12,GPIO.OUT)
+
+P=GPIO.PWM(8,100)
+Q=GPIO.PWM(10,100)
+R=GPIO.PWM(12,100)
+
+P.start(0)
+Q.start(0)
+R.start(0)
+
+while True:
+    for i in range(0,100,10):
+        P.ChangeDutyCycle(i)
+        sleep(0.1)
+    for i in range(0,100,10):
+        Q.ChangeDutyCycle(i)
+        sleep(0.1)
+    for i in range(0,100,10):
+        R.ChangeDutyCycle(i)
+        sleep(0.1)
+    for i in range(100,0,-10):
+        P.ChangeDutyCycle(i)
+        sleep(0.1)
+    for i in range(100,0,-10):
+        Q.ChangeDutyCycle(i)
+        sleep(0.1)
+    for i in range(100,0,-10):
+        R.ChangeDutyCycle(i)
+        sleep(0.1)
+        
+        
+# simulataneous for all 3
+
+while True:
+    for i in range(0,100,10):
+        P.ChangeDutyCycle(i)
+        Q.ChangeDutyCycle(i)
+        R.ChangeDutyCycle(i)
+        sleep(0.1)
+    for i in range(100,0,-10):
+        P.ChangeDutyCycle(i)
+        Q.ChangeDutyCycle(i)
+        R.ChangeDutyCycle(i)
+        sleep(0.1)  
+        
+# random
+
+choices=[P,Q,R]
+while True:
+    temp=random.choice()
+    for i in range(0,100,10):
+        temp.ChangeDutyCycle(i)
+        sleep(0.1)
+    for i in range(100,0,-10):
+        temp.ChangeDutyCycle(i)
+        sleep(0.1)
+    

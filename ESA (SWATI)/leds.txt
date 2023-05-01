@@ -1,0 +1,59 @@
+#Interfacing LED with GPIO pins
+
+import Rpi.GPIO as GPIO
+from time import sleep
+import random
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO.setup(8,GPIO.OUT)
+GPIO.setup(10,GPIO.OUT)
+GPIO.setup(12,GPIO.OUT)
+while True:
+    #serial
+    GPIO.output(8,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(8,GPIO.LOW)
+    sleep(1)
+    GPIO.output(10,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(10,GPIO.LOW)
+    sleep(1)
+    GPIO.output(12,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(12,GPIO.LOW)
+    sleep(1)
+    
+    #reverse
+    GPIO.output(8,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(8,GPIO.LOW)
+    sleep(1)
+    GPIO.output(10,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(10,GPIO.LOW)
+    sleep(1)
+    GPIO.output(12,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(12,GPIO.LOW)
+    sleep(1)
+    GPIO.output(12,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(12,GPIO.LOW)
+    sleep(1)
+    GPIO.output(10,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(10,GPIO.LOW)
+    sleep(1)
+    GPIO.output(8,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(8,GPIO.LOW)
+    sleep(1)
+    
+    #random
+    choices=[8,10,12] # write this line outside while
+    temp=random.choice(choices)
+    GPIO.output(temp,GPIO.HIGH)
+    sleep(1)
+    GPIO.output(temp,GPIO.LOW)
+    sleep(1)   
+    
